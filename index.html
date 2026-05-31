@@ -334,18 +334,32 @@
     text-transform: uppercase; color: var(--grey);
     margin-top: .4rem;
   }
-  .work-hover-btn {
-    position: absolute; top: 25%; left: 50%;
-    transform: translate(-50%,-50%) scale(0);
-    width: 70px; height: 70px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--gold); font-size: .65rem;
-    letter-spacing: .2em; text-transform: uppercase;
-    transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s;
-    z-index: 3;
-    font-family: 'Inter', sans-serif;
+  .work-hover-btn{
+    position:absolute;
+    bottom:24px;
+    right:24px;
+    z-index:10;
+    padding:12px 24px;
+    border:1px solid rgba(198,161,91,.8);
+    border-radius:8px;
+    background:rgba(5,5,5,.75);
+    backdrop-filter:blur(10px);
+    color:#F4E8D0;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:all .35s ease;
+  }
+  .work-hover-btn:hover{
+    background:#C6A15B;
+    color:#050505;
+    transform:translateY(-3px);
+    box-shadow:
+        0 0 20px rgba(198,161,91,.35);
+
   }
   .work-card:hover .work-hover-btn {
     transform: translate(-50%,-50%) scale(1);
@@ -890,7 +904,7 @@
         </video>
         <div class="work-hover-btn"
           onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4','_blank')">
-          VIEW FILM
+          WATCH FILM
         </div>
         <div class="work-card-info">
           <div class="work-card-num">11 — 2025</div>
