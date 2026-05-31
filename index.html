@@ -1450,49 +1450,65 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 const videos = document.querySelectorAll('.work-video');
 
-videos.forEach(video => {
+const isMobile =
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    const card = video.closest('.work-card');
+if(!isMobile){
 
-    // Desktop
-    card.addEventListener('mouseenter', () => {
-        video.currentTime = 0;
-        video.play();
-    });
-    card.addEventListener('mouseleave', () => {
-        video.pause();
-        video.currentTime = 0;
-    });
-});
+    // Desktop Hover
 
-// Mobile autoplay
+    videos.forEach(video => {
 
-const observer = new IntersectionObserver((entries) => {
+        const card = video.closest('.work-card');
 
-    entries.forEach(entry => {
+        card.addEventListener('mouseenter', () => {
 
-        const video = entry.target;
-
-        if(entry.isIntersecting){
-
+            video.currentTime = 0;
             video.play();
 
-        }else{
+        });
+
+        card.addEventListener('mouseleave', () => {
 
             video.pause();
             video.currentTime = 0;
 
-        }
+        });
 
     });
 
-},{
-    threshold:0.6
-});
+}else{
 
-document.querySelectorAll('.work-video').forEach(video => {
-    observer.observe(video);
-});
+    // Mobile Scroll Autoplay
+
+    const observer = new IntersectionObserver(entries => {
+
+        entries.forEach(entry => {
+
+            const video = entry.target;
+
+            if(entry.isIntersecting){
+
+                video.play().catch(()=>{});
+
+            }else{
+
+                video.pause();
+                video.currentTime = 0;
+
+            }
+
+        });
+
+    }, {
+        threshold: 0.5
+    });
+
+    videos.forEach(video => {
+        observer.observe(video);
+    });
+
+}
 </script>
 </body>
 </html>
