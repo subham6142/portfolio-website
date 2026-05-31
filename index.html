@@ -270,13 +270,17 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
-    gap: 1px;
+    gap: 3px;
     background: rgba(198,161,91,.08);
+    overflow:visible;
   }
   .work-card {
-    position: relative; overflow: hidden;
+    position: relative; 
+    overflow: visible;
     background: var(--charcoal);
     cursor: none;
+    z-index:1;
+    transform-style:preserve-3d;
     transition:
         transform .4s cubic-bezier(.22,1,.36,1),
         box-shadow .4s ease;
@@ -285,6 +289,7 @@
     transform:
         translateY(-8px)
         scale(1.03);
+    z-index:100;
     box-shadow:
         0 20px 50px rgba(0,0,0,.45),
         0 0 30px rgba(198,161,91,.15);
@@ -314,6 +319,7 @@
     background: linear-gradient(to top, rgba(5,5,5,.95) 0%, rgba(5,5,5,.2) 60%, transparent 100%);
     position: relative;
     overflow: hidden;
+    transform-style:preserve-3d;
     transition: transform .6s cubic-bezier(.23,1,.32,1);
   }
   .work-card:nth-child(1) .work-card-inner { aspect-ratio: 16/9; }
@@ -1378,7 +1384,12 @@ document.querySelectorAll('.work-card').forEach(card => {
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width  - 0.5;
     const y = (e.clientY - rect.top)  / rect.height - 0.5;
-    card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg) scale(1.01)`;
+    card.style.transform =
+    `perspective(1200px)
+     rotateY(${x * 8}deg)
+     rotateX(${-y * 6}deg)
+     translateZ(30px)
+     scale(1.03)`;
   });
   card.addEventListener('mouseleave', () => {
     card.style.transform = '';
