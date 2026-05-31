@@ -25,7 +25,7 @@
     background: var(--black);
     color: var(--ivory);
     font-family: 'Inter', sans-serif;
-    cursor: none;
+    
     overflow-x: hidden;
   }
   ::selection { background: var(--gold); color: var(--black); }
@@ -1366,7 +1366,7 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   cursor.style.top  = cy + 'px';
   requestAnimationFrame(anim);
 })();
-document.querySelectorAll('a, button, .work-card, .masonry-item, .arsenal-card, .featured-play')
+document.querySelectorAll('a, button, .work-card,.work-hover-btn, .masonry-item, .arsenal-card, .featured-play')
   .forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
