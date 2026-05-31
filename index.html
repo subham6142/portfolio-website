@@ -397,8 +397,8 @@
   @media (max-width: 768px) {
 
     .work-hover-btn{
-        top:30px;
-        right:20px;
+        top:15px;
+        right:15px;
 
         bottom:auto;
         left:auto;
@@ -1452,17 +1452,46 @@ const videos = document.querySelectorAll('.work-video');
 
 videos.forEach(video => {
 
-  const card = video.closest('.work-card');
+    const card = video.closest('.work-card');
 
-  card.addEventListener('mouseenter', () => {
-    video.currentTime = 0;
-    video.play();
-  });
-  
-  card.addEventListener('mouseleave', () => {
-    video.pause();
-    video.load();
-  });
+    // Desktop
+    card.addEventListener('mouseenter', () => {
+        video.currentTime = 0;
+        video.play();
+    });
+    card.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
+    });
+});
+
+// Mobile autoplay
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        const video = entry.target;
+
+        if(entry.isIntersecting){
+
+            video.play();
+
+        }else{
+
+            video.pause();
+            video.currentTime = 0;
+
+        }
+
+    });
+
+},{
+    threshold:0.6
+});
+
+document.querySelectorAll('.work-video').forEach(video => {
+    observer.observe(video);
 });
 </script>
 </body>
