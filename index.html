@@ -1482,34 +1482,58 @@ if(!isMobile){
 
     // Mobile Scroll Autoplay
 
-    const observer = new IntersectionObserver(entries => {
+    const videos = document.querySelectorAll('.work-video');
 
-        entries.forEach(entry => {
+function playMostVisibleVideo() {
 
-            const video = entry.target;
+    let bestVideo = null;
+    let bestVisibility = 0;
 
-            if(entry.isIntersecting){
+    videos.forEach(video => {
 
-                video.play().catch(()=>{});
+        const rect = video.getBoundingClientRect();
 
-            }else{
+        const viewportHeight = window.innerHeight;
 
-                video.pause();
-                video.currentTime = 0;
+        const visibleHeight =
+            Math.min(rect.bottom, viewportHeight) -
+            Math.max(rect.top, 0);
 
-            }
+        const visibility =
+            Math.max(0, visibleHeight) / rect.height;
 
-        });
+        if (visibility > bestVisibility) {
 
-    }, {
-        threshold: 0.5
+            bestVisibility = visibility;
+            bestVideo = video;
+
+        }
+
     });
 
     videos.forEach(video => {
-        observer.observe(video);
+
+        if(video === bestVideo && bestVisibility > 0.5){
+
+            video.play().catch(()=>{});
+
+        }else{
+
+            video.pause();
+            video.currentTime = 0;
+            video.load();
+
+        }
+
     });
 
 }
+
+window.addEventListener('scroll', playMostVisibleVideo);
+
+window.addEventListener('resize', playMostVisibleVideo);
+
+playMostVisibleVideo();
 </script>
 </body>
 </html>
