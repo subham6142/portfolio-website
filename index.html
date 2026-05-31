@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24FPS Diaries – Every Frame Tells A Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #050505;
+    --charcoal: #0D0D0D;
+    --red: #7B0F12;
+    --gold: #C6A15B;
+    --ivory: #F4E8D0;
+    --grey: #BFBFBF;
+    --red-glow: rgba(123,15,18,0.4);
+    --gold-glow: rgba(198,161,91,0.3);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    background: var(--black);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--gold); color: var(--black); }
+
+  /* ─── CUSTOM CURSOR ─── */
+  #cursor {
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width .25s, height .25s, background .25s, box-shadow .25s;
+    mix-blend-mode: difference;
+  }
+  #cursor.expand {
+    width: 40px; height: 40px;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    box-shadow: 0 0 20px var(--gold-glow);
+  }
+
+  /* ─── FILM GRAIN OVERLAY ─── */
+  #grain {
+    position: fixed; inset: 0; z-index: 9990;
+    pointer-events: none; opacity: .045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  /* ─── PARTICLES ─── */
+  #particles { position: fixed; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    0%   { transform: translateY(100vh) translateX(0);   opacity: 0; }
+    10%  { opacity: .6; }
+    90%  { opacity: .3; }
+    100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1.5rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(5,5,5,.9) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: background .4s, backdrop-filter .4s;
+  }
+  nav.scrolled {
+    background: rgba(5,5,5,.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(198,161,91,.1);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-menu-btn {
+    display: none;
+    background: none; border: none; cursor: none;
+    flex-direction: column; gap: 5px;
+  }
+  .nav-menu-btn span {
+    display: block; width: 24px; height: 1px;
+    background: var(--ivory); transition: .3s;
+  }
+
+  /* ─── MOBILE NAV ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; position: fixed; inset: 0; background: rgba(5,5,5,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.2rem; }
+    .nav-menu-btn { display: flex; }
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  #hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; z-index: 1;
+    opacity: .55;
+  }
+  .hero-gradient {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(
+      to bottom,
+      rgba(5,5,5,.3) 0%,
+      rgba(5,5,5,.1) 40%,
+      rgba(5,5,5,.6) 80%,
+      rgba(5,5,5,1) 100%
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 3;
+    text-align: center;
+    animation: fadeUp .8s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-label {
+    font-family: 'Inter', sans-serif;
+    font-size: .7rem; letter-spacing: .4em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+    animation: fadeUp .8s .2s ease both;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: .05em;
+    color: var(--ivory);
+    text-shadow: 0 0 80px rgba(198,161,91,.15);
+    animation: fadeUp .8s .35s ease both;
+  }
+  .hero-title span { color: var(--gold); }
+  .hero-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(.8rem, 1.5vw, 1rem);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 1.5rem;
+    animation: fadeUp .8s .5s ease both;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: .75rem;
+    margin-top: 3rem;
+    padding: .9rem 2.5rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem; letter-spacing: .2em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background .3s, color .3s, box-shadow .3s;
+    animation: fadeUp .8s .65s ease both;
+  }
+  .hero-cta:hover {
+    background: var(--gold); color: var(--black);
+    box-shadow: 0 0 40px var(--gold-glow);
+  }
+  .scroll-indicator {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    z-index: 3; display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    animation: fadeUp .8s .9s ease both;
+  }
+  .scroll-indicator span {
+    font-size: .6rem; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--grey);
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: .3; transform: scaleY(1); }
+    50%       { opacity: 1;  transform: scaleY(1.15); }
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 8rem 3rem; position: relative; }
+  @media (max-width: 768px) { section { padding: 5rem 1.5rem; } }
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: .65rem; letter-spacing: .45em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ivory);
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: .9rem;
+    color: var(--grey);
+    max-width: 500px;
+    line-height: 1.8;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(198,161,91,.25), transparent);
+    margin: 0;
+  }
+
+  /* ─── SELECTED WORKS ─── */
+  #works { background: var(--black); }
+  .works-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 4rem; }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 1px;
+    background: rgba(198,161,91,.08);
+  }
+  .work-card {
+    position: relative; overflow: hidden;
+    background: var(--charcoal);
+    cursor: none;
+    transition: transform .5s cubic-bezier(.23,1,.32,1);
+  }
+  .work-card:hover { z-index: 2; }
+  .work-card:nth-child(1) { grid-column: span 7; }
+  .work-card:nth-child(2) { grid-column: span 5; }
+  .work-card:nth-child(3) { grid-column: span 4; }
+  .work-card:nth-child(4) { grid-column: span 4; }
+  .work-card:nth-child(5) { grid-column: span 4; }
+
+  @media (max-width: 900px) {
+    .work-card:nth-child(n) { grid-column: span 12; }
+  }
+
+  .work-card-inner {
+    aspect-ratio: 16/10;
+    display: flex; align-items: flex-end;
+    padding: 1.8rem;
+    background: linear-gradient(to top, rgba(5,5,5,.95) 0%, rgba(5,5,5,.2) 60%, transparent 100%);
+    position: relative;
+    overflow: hidden;
+    transition: transform .6s cubic-bezier(.23,1,.32,1);
+  }
+  .work-card:nth-child(1) .work-card-inner { aspect-ratio: 16/9; }
+  .work-card:hover .work-card-inner { transform: scale(1.04); }
+
+  .work-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform .6s cubic-bezier(.23,1,.32,1);
+    filter: brightness(.7);
+  }
+  .work-card:hover .work-bg { transform: scale(1.08); }
+
+  /* Placeholder gradient backgrounds for each card */
+  .work-card:nth-child(1) .work-bg { background: linear-gradient(135deg, #1a0a0a 0%, #3d1010 50%, #0d0d0d 100%); }
+  .work-card:nth-child(2) .work-bg { background: linear-gradient(135deg, #0a1a2a 0%, #1a3a6a 60%, #0d0d0d 100%); }
+  .work-card:nth-child(3) .work-bg { background: linear-gradient(135deg, #1a1a0a 0%, #4a4a10 60%, #0d0d0d 100%); }
+  .work-card:nth-child(4) .work-bg { background: linear-gradient(135deg, #0a1a0a 0%, #1a4a2a 60%, #0d0d0d 100%); }
+  .work-card:nth-child(5) .work-bg { background: linear-gradient(135deg, #1a0a1a 0%, #4a1a4a 60%, #0d0d0d 100%); }
+
+  .work-card-info { position: relative; z-index: 2; }
+  .work-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: .8rem; letter-spacing: .2em;
+    color: var(--gold); margin-bottom: .35rem;
+  }
+  .work-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.8rem);
+    line-height: 1; color: var(--ivory);
+    letter-spacing: .05em;
+  }
+  .work-card-tag {
+    font-size: .65rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--grey);
+    margin-top: .4rem;
+  }
+  .work-hover-btn {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    width: 70px; height: 70px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: .65rem;
+    letter-spacing: .2em; text-transform: uppercase;
+    transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s;
+    z-index: 3;
+    font-family: 'Inter', sans-serif;
+  }
+  .work-card:hover .work-hover-btn {
+    transform: translate(-50%,-50%) scale(1);
+    box-shadow: 0 0 30px var(--red-glow);
+  }
+  .view-all-link {
+    font-family: 'Inter', sans-serif;
+    font-size: .7rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(198,161,91,.3);
+    padding-bottom: 2px;
+    transition: border-color .3s;
+    white-space: nowrap;
+    margin-left: 2rem;
+  }
+  .view-all-link:hover { border-color: var(--gold); }
+
+  /* ─── FEATURED PROJECT ─── */
+  #featured {
+    background: var(--charcoal);
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+  @media (max-width: 900px) {
+    #featured { grid-template-columns: 1fr; }
+  }
+  .featured-visual {
+    position: relative;
+    background: linear-gradient(135deg, #200010 0%, #7B0F12 50%, #050505 100%);
+    min-height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .featured-visual::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 60% 50%, rgba(123,15,18,.6) 0%, transparent 70%);
+  }
+  .featured-play {
+    width: 90px; height: 90px;
+    border: 1.5px solid rgba(198,161,91,.6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+    transition: transform .3s, box-shadow .3s;
+    cursor: none;
+  }
+  .featured-play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px var(--red-glow);
+  }
+  .featured-play svg { fill: var(--gold); margin-left: 6px; }
+  .featured-big-text {
+    position: absolute; bottom: -1rem; left: -1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(6rem, 14vw, 16rem);
+    line-height: 1;
+    color: rgba(198,161,91,.06);
+    pointer-events: none; user-select: none;
+  }
+  .featured-info {
+    padding: 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid rgba(198,161,91,.1);
+  }
+  @media (max-width: 768px) { .featured-info { padding: 3rem 1.5rem; } }
+  .featured-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 1; color: var(--ivory);
+    letter-spacing: .03em;
+    margin: 1rem 0;
+  }
+  .featured-desc {
+    font-size: .9rem; color: var(--grey); line-height: 1.9;
+    max-width: 420px; margin-bottom: 2rem;
+  }
+  .featured-stats {
+    display: flex; gap: 3rem;
+    border-top: 1px solid rgba(198,161,91,.15);
+    padding-top: 2rem;
+  }
+  .featured-stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--gold);
+    display: block;
+  }
+  .featured-stat-label {
+    font-size: .65rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--grey);
+  }
+
+  /* ─── AERIAL / DRONE ─── */
+  #aerial {
+    background: var(--black);
+    text-align: center;
+  }
+  .aerial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(198,161,91,.06);
+    margin-top: 4rem;
+  }
+  @media (max-width: 700px) {
+    .aerial-grid { grid-template-columns: 1fr; }
+  }
+  .aerial-item {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+  .aerial-item:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16/7;
+  }
+  @media (max-width: 700px) {
+    .aerial-item:first-child { grid-column: span 1; aspect-ratio: 4/3; }
+  }
+  .aerial-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .aerial-item:hover .aerial-bg { transform: scale(1.06); }
+  .aerial-item:nth-child(1) .aerial-bg { background: linear-gradient(to bottom, #0a1a3a 0%, #1a3a6a 40%, #0a0a1a 100%); }
+  .aerial-item:nth-child(2) .aerial-bg { background: linear-gradient(to bottom, #1a1a3a 0%, #3a2a5a 60%, #0a0a1a 100%); }
+  .aerial-item:nth-child(3) .aerial-bg { background: linear-gradient(to bottom, #1a2a1a 0%, #2a4a2a 60%, #0a0a0a 100%); }
+  .aerial-label {
+    position: absolute; bottom: 1.2rem; left: 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; letter-spacing: .1em;
+    color: var(--ivory);
+    background: rgba(5,5,5,.5);
+    padding: .3rem .8rem;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ─── PHOTOGRAPHY ─── */
+  #photography { background: var(--charcoal); }
+  .photo-cats {
+    display: flex; gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 2rem; margin-bottom: 3rem;
+  }
+  .photo-cat {
+    font-size: .65rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--grey);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: .5rem 1.2rem;
+    cursor: none;
+    transition: color .3s, border-color .3s, background .3s;
+    background: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .photo-cat.active,
+  .photo-cat:hover { color: var(--black); background: var(--gold); border-color: var(--gold); }
+
+  .masonry {
+    columns: 3;
+    column-gap: 1px;
+  }
+  @media (max-width: 700px) { .masonry { columns: 2; } }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1px;
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+  }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
+  .masonry-photo {
+    width: 100%;
+    display: block;
+    transition: transform .5s cubic-bezier(.23,1,.32,1);
+  }
+  .masonry-item:hover .masonry-photo { transform: scale(1.04); }
+  .masonry-overlay {
+    position: absolute; inset: 0;
+    background: rgba(5,5,5,.55);
+    display: flex; align-items: flex-end; padding: 1.2rem;
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .masonry-overlay-text {
+    font-size: .65rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Fake photos using CSS art */
+  .photo-block {
+    width: 100%;
+    display: block;
+  }
+  .photo-block-tall   { aspect-ratio: 2/3; }
+  .photo-block-wide   { aspect-ratio: 3/2; }
+  .photo-block-square { aspect-ratio: 1/1; }
+  .p1 { background: linear-gradient(135deg, #1a0a2a 0%, #2a1a4a 50%, #0a0a1a 100%); }
+  .p2 { background: linear-gradient(to bottom, #0a1a1a 0%, #1a3a3a 60%, #0a0a0a 100%); }
+  .p3 { background: linear-gradient(135deg, #2a1a0a 0%, #5a3a10 60%, #1a1a0a 100%); }
+  .p4 { background: linear-gradient(135deg, #0a2a1a 0%, #1a5a2a 60%, #0a0a0a 100%); }
+  .p5 { background: linear-gradient(to bottom, #1a1a2a 0%, #3a2a5a 70%, #0a0a0a 100%); }
+  .p6 { background: linear-gradient(135deg, #2a0a0a 0%, #5a1a1a 50%, #0a0a0a 100%); }
+
+  /* ─── ARSENAL ─── */
+  #arsenal { background: var(--black); overflow: hidden; }
+  .arsenal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(198,161,91,.08);
+    margin-top: 4rem;
+  }
+  @media (max-width: 700px) { .arsenal-grid { grid-template-columns: 1fr; } }
+  .arsenal-card {
+    position: relative;
+    padding: 4rem 2.5rem 3rem;
+    background: var(--charcoal);
+    overflow: hidden;
+    text-align: center;
+    transition: background .4s;
+    cursor: none;
+  }
+  .arsenal-card:hover { background: #0f0f0f; }
+  .arsenal-card-aura {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity .5s;
+    pointer-events: none;
+  }
+  .arsenal-card:nth-child(1) .arsenal-card-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(123,15,18,.3) 0%, transparent 70%);
+  }
+  .arsenal-card:nth-child(2) .arsenal-card-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(180,180,200,.15) 0%, transparent 70%);
+  }
+  .arsenal-card:nth-child(3) .arsenal-card-aura {
+    background: radial-gradient(circle at 50% 50%, rgba(50,100,180,.2) 0%, transparent 70%);
+  }
+  .arsenal-card:hover .arsenal-card-aura { opacity: 1; }
+
+  .arsenal-icon {
+    width: 100px; height: 100px;
+    margin: 0 auto 2rem;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .arsenal-icon svg { width: 100%; height: 100%; }
+
+  .arsenal-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem; letter-spacing: .08em;
+    color: var(--ivory); margin-bottom: .5rem;
+  }
+  .arsenal-card-sub {
+    font-size: .75rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  .arsenal-card-desc {
+    font-size: .85rem; color: var(--grey);
+    line-height: 1.8; max-width: 260px; margin: 0 auto;
+  }
+  .arsenal-specs {
+    margin-top: 2rem;
+    border-top: 1px solid rgba(198,161,91,.1);
+    padding-top: 1.5rem;
+    display: flex; flex-direction: column; gap: .6rem;
+  }
+  .arsenal-spec {
+    display: flex; justify-content: space-between;
+    font-size: .72rem;
+  }
+  .arsenal-spec-key { color: var(--grey); letter-spacing: .1em; text-transform: uppercase; }
+  .arsenal-spec-val { color: var(--ivory); }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--charcoal);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  .about-quote {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.5;
+    color: var(--ivory);
+    font-weight: 400;
+    font-style: italic;
+    border-left: 2px solid var(--gold);
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+  }
+  .about-body {
+    font-size: .9rem; color: var(--grey);
+    line-height: 2;
+    margin-bottom: 1.5rem;
+  }
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #1a0a0a 0%, #3d1010 40%, #0d0d0d 100%);
+    overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 40% 40%, rgba(123,15,18,.4) 0%, transparent 60%);
+  }
+  .about-visual-text {
+    position: absolute; bottom: 2rem; right: -0.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6rem; line-height: 1;
+    color: rgba(198,161,91,.12);
+    writing-mode: vertical-rl;
+    pointer-events: none; user-select: none;
+  }
+  .about-badge {
+    position: absolute; top: 2rem; left: 2rem;
+    border: 1px solid rgba(198,161,91,.3);
+    padding: .8rem 1.2rem;
+    backdrop-filter: blur(8px);
+    background: rgba(5,5,5,.5);
+  }
+  .about-badge-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--gold);
+    display: block;
+  }
+  .about-badge-sub {
+    font-size: .6rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--grey);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--black);
+    text-align: center;
+    padding: 10rem 3rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .contact-bg-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 20vw, 22rem);
+    color: rgba(198,161,91,.025);
+    pointer-events: none; user-select: none;
+    white-space: nowrap;
+  }
+  .contact-content { position: relative; z-index: 2; }
+  .contact-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 5rem);
+    font-weight: 700; color: var(--ivory);
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .contact-sub {
+    font-size: 1rem; color: var(--grey);
+    letter-spacing: .1em; margin-bottom: 4rem;
+  }
+  .contact-links {
+    display: flex; align-items: center; justify-content: center;
+    gap: 3rem; flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    text-decoration: none;
+    transition: transform .3s;
+  }
+  .contact-link:hover { transform: translateY(-4px); }
+  .contact-link-icon {
+    width: 60px; height: 60px;
+    border: 1px solid rgba(198,161,91,.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .contact-link:hover .contact-link-icon {
+    border-color: var(--gold);
+    box-shadow: 0 0 30px var(--gold-glow);
+  }
+  .contact-link-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .contact-link-label {
+    font-size: .65rem; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--grey);
+    font-family: 'Inter', sans-serif;
+  }
+  .contact-link-val {
+    font-family: 'Inter', sans-serif;
+    font-size: .85rem; color: var(--ivory);
+  }
+  .contact-divider {
+    width: 1px; height: 80px;
+    background: rgba(198,161,91,.15);
+  }
+  @media (max-width: 600px) { .contact-divider { display: none; } }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--charcoal);
+    border-top: 1px solid rgba(198,161,91,.1);
+    padding: 2.5rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: .85rem; letter-spacing: .2em;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .footer-tagline {
+    font-size: .65rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--grey);
+    margin-top: .2rem;
+  }
+  .footer-copy {
+    font-size: .7rem; color: rgba(191,191,191,.4);
+    letter-spacing: .1em;
+  }
+
+  /* ─── LENIS-STYLE SMOOTH SCROLL ─── */
+  html.lenis { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto; }
+
+  /* ─── PAGE TRANSITIONS / REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ─── TILT CARDS STYLE ─── */
+  .tilt-card { transform-style: preserve-3d; }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+
+<!-- Film Grain -->
+<div id="grain"></div>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">24FPS DIARIES</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#works">Work</a></li>
+    <li><a href="#photography">Photography</a></li>
+    <li><a href="#arsenal">Arsenal</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <!-- Replace src with your actual INNO reel URL -->
+  <video id="hero-video" autoplay muted loop playsinline
+    src="https://www.w3schools.com/html/mov_bbb.mp4">
+  </video>
+  <div class="hero-gradient"></div>
+
+  <div class="hero-content">
+    <p class="hero-label">Cinematographer · Storyteller · Visual Artist</p>
+    <h1 class="hero-title">24FPS<br><span>DIARIES</span></h1>
+    <p class="hero-tagline">Every Frame Tells A Story</p>
+    <a href="#works" class="hero-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      View My Work
+    </a>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ SELECTED WORKS ═══ -->
+<section id="works">
+  <div class="works-header">
+    <div>
+      <div class="section-label reveal">Selected Works</div>
+      <h2 class="section-title reveal reveal-delay-1">The Films</h2>
+    </div>
+    <a href="#works" class="view-all-link reveal reveal-delay-2">View All Projects →</a>
+  </div>
+
+  <div class="works-grid">
+
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
+        <div class="work-bg"></div>
+        <div class="work-hover-btn">Play</div>
+        <div class="work-card-info">
+          <div class="work-card-num">01 — 2024</div>
+          <div class="work-card-title">INNO</div>
+          <div class="work-card-tag">Brand Film · Commercial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
+        <div class="work-bg"></div>
+        <div class="work-hover-btn">Play</div>
+        <div class="work-card-info">
+          <div class="work-card-num">02 — 2024</div>
+          <div class="work-card-title">HOLI</div>
+          <div class="work-card-tag">Event · Color Story</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
+        <div class="work-bg"></div>
+        <div class="work-hover-btn">Play</div>
+        <div class="work-card-info">
+          <div class="work-card-num">03 — 2024</div>
+          <div class="work-card-title">SHAAN</div>
+          <div class="work-card-tag">Portrait · Fashion</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
+        <div class="work-bg"></div>
+        <div class="work-hover-btn">Play</div>
+        <div class="work-card-info">
+          <div class="work-card-num">04 — 2024</div>
+          <div class="work-card-title">COMMERCIALS</div>
+          <div class="work-card-tag">Brand · Product</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
+        <div class="work-bg"></div>
+        <div class="work-hover-btn">Play</div>
+        <div class="work-card-info">
+          <div class="work-card-num">05 — 2024</div>
+          <div class="work-card-title">CAR EDIT</div>
+          <div class="work-card-tag">Automotive · Cinematic</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ FEATURED PROJECT ═══ -->
+<section id="featured" style="padding:0;">
+  <div class="featured-visual">
+    <div class="featured-big-text">INNO</div>
+    <div class="featured-play">
+      <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    </div>
+  </div>
+
+  <div class="featured-info">
+    <div class="section-label reveal">Featured Project</div>
+    <h2 class="featured-title reveal">INNO</h2>
+    <p class="featured-desc reveal reveal-delay-1">
+      A cinematic brand film that captures the essence of innovation through the lens of raw emotion. Shot on Sony FX30 with DJI Ronin stabilization across 3 locations over 2 days.
+    </p>
+    <a href="#works" class="hero-cta reveal reveal-delay-2" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
+    <div class="featured-stats reveal reveal-delay-3">
+      <div>
+        <span class="featured-stat-val">3</span>
+        <span class="featured-stat-label">Locations</span>
+      </div>
+      <div>
+        <span class="featured-stat-val">2</span>
+        <span class="featured-stat-label">Days Shot</span>
+      </div>
+      <div>
+        <span class="featured-stat-val">4K</span>
+        <span class="featured-stat-label">Resolution</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ AERIAL VISIONS ═══ -->
+<section id="aerial">
+  <div class="section-label reveal" style="justify-content:center">Aerial Division</div>
+  <h2 class="section-title reveal" style="text-align:center">Aerial Visions</h2>
+  <p class="section-sub reveal" style="margin: 0 auto; text-align:center; margin-top:.5rem">Where perspective changes everything. Shot with DJI Mini 2, above clouds and beyond horizons.</p>
+
+  <div class="aerial-grid">
+    <div class="aerial-item">
+      <div class="aerial-bg"></div>
+      <div class="aerial-label">Cloud Lines — 400m</div>
+    </div>
+    <div class="aerial-item">
+      <div class="aerial-bg"></div>
+      <div class="aerial-label">Urban Grid</div>
+    </div>
+    <div class="aerial-item">
+      <div class="aerial-bg"></div>
+      <div class="aerial-label">Coastal Dawn</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PHOTOGRAPHY ═══ -->
+<section id="photography">
+  <div class="works-header" style="flex-wrap:wrap; gap:1.5rem;">
+    <div>
+      <div class="section-label reveal">Visual Archive</div>
+      <h2 class="section-title reveal">Photography</h2>
+    </div>
+  </div>
+
+  <div class="photo-cats reveal">
+    <button class="photo-cat active">All</button>
+    <button class="photo-cat">Travel</button>
+    <button class="photo-cat">Street</button>
+    <button class="photo-cat">Portrait</button>
+    <button class="photo-cat">Commercial</button>
+    <button class="photo-cat">Drone</button>
+  </div>
+
+  <div class="masonry">
+    <div class="masonry-item">
+      <div class="photo-block photo-block-tall p1"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Portrait · Mumbai</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-wide p2"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Street · Delhi</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-tall p3"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Landscape · Goa</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-square p4"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Commercial · Product</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-wide p5"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Drone · Aerial</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-square p6"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Travel · Rajasthan</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-tall p2"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Portrait · Studio</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-wide p1"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Street · Night</span></div>
+    </div>
+    <div class="masonry-item">
+      <div class="photo-block photo-block-square p3"></div>
+      <div class="masonry-overlay"><span class="masonry-overlay-text">Commercial · Brand</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ ARSENAL ═══ -->
+<section id="arsenal">
+  <div style="text-align:center; margin-bottom:0;">
+    <div class="section-label reveal" style="justify-content:center">Tools of the Trade</div>
+    <h2 class="section-title reveal">The Arsenal</h2>
+    <p class="section-sub reveal" style="margin: .5rem auto 0; text-align:center;">Not just gear. Weapons of storytelling.</p>
+  </div>
+
+  <div class="arsenal-grid">
+    <!-- SONY FX30 -->
+    <div class="arsenal-card reveal">
+      <div class="arsenal-card-aura"></div>
+      <div class="arsenal-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="30" width="80" height="50" rx="4" fill="none" stroke="#7B0F12" stroke-width="2"/>
+          <rect x="20" y="20" width="30" height="15" rx="2" fill="none" stroke="#7B0F12" stroke-width="1.5"/>
+          <circle cx="50" cy="55" r="15" fill="none" stroke="#C6A15B" stroke-width="2"/>
+          <circle cx="50" cy="55" r="8" fill="none" stroke="#C6A15B" stroke-width="1"/>
+          <rect x="68" y="38" width="12" height="8" rx="1" fill="none" stroke="#7B0F12" stroke-width="1.5"/>
+          <circle cx="50" cy="55" r="3" fill="#7B0F12"/>
+        </svg>
+      </div>
+      <div class="arsenal-card-title">SONY FX30</div>
+      <div class="arsenal-card-sub">The Camera Behind Every Story</div>
+      <p class="arsenal-card-desc">Cinema-grade sensor in a compact body. Every frame it captures carries emotional weight.</p>
+      <div class="arsenal-specs">
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Sensor</span>
+          <span class="arsenal-spec-val">APS-C 26MP</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Video</span>
+          <span class="arsenal-spec-val">4K 120fps</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Log</span>
+          <span class="arsenal-spec-val">S-Log3 / S-Cinetone</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DJI RONIN -->
+    <div class="arsenal-card reveal reveal-delay-1">
+      <div class="arsenal-card-aura"></div>
+      <div class="arsenal-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <line x1="50" y1="10" x2="50" y2="35" stroke="#B0B0C0" stroke-width="2"/>
+          <rect x="38" y="35" width="24" height="12" rx="2" fill="none" stroke="#B0B0C0" stroke-width="1.5"/>
+          <line x1="50" y1="47" x2="50" y2="65" stroke="#B0B0C0" stroke-width="2"/>
+          <rect x="30" y="65" width="40" height="10" rx="2" fill="none" stroke="#B0B0C0" stroke-width="1.5"/>
+          <circle cx="50" cy="10" r="5" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+          <circle cx="50" cy="55" r="8" fill="none" stroke="#C6A15B" stroke-width="1"/>
+          <line x1="20" y1="70" x2="20" y2="90" stroke="#B0B0C0" stroke-width="2"/>
+          <line x1="80" y1="70" x2="80" y2="90" stroke="#B0B0C0" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="arsenal-card-title">DJI RONIN</div>
+      <div class="arsenal-card-sub">Stability In Motion</div>
+      <p class="arsenal-card-desc">Three-axis mastery. Transforms motion into poetry, instability into art.</p>
+      <div class="arsenal-specs">
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Axes</span>
+          <span class="arsenal-spec-val">3-Axis Gimbal</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Payload</span>
+          <span class="arsenal-spec-val">Up to 4.5kg</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Battery</span>
+          <span class="arsenal-spec-val">12 hr runtime</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DJI MINI 2 -->
+    <div class="arsenal-card reveal reveal-delay-2">
+      <div class="arsenal-card-aura"></div>
+      <div class="arsenal-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="35" y="42" width="30" height="16" rx="3" fill="none" stroke="#4080D0" stroke-width="1.5"/>
+          <line x1="35" y1="50" x2="15" y2="38" stroke="#4080D0" stroke-width="1.5"/>
+          <line x1="65" y1="50" x2="85" y2="38" stroke="#4080D0" stroke-width="1.5"/>
+          <line x1="35" y1="50" x2="15" y2="62" stroke="#4080D0" stroke-width="1.5"/>
+          <line x1="65" y1="50" x2="85" y2="62" stroke="#4080D0" stroke-width="1.5"/>
+          <ellipse cx="15" cy="38" rx="8" ry="3" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+          <ellipse cx="85" cy="38" rx="8" ry="3" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+          <ellipse cx="15" cy="62" rx="8" ry="3" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+          <ellipse cx="85" cy="62" rx="8" ry="3" fill="none" stroke="#C6A15B" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="4" fill="#4080D0" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="arsenal-card-title">DJI MINI 2</div>
+      <div class="arsenal-card-sub">Perspective Changes Everything</div>
+      <p class="arsenal-card-desc">249g of aerial magic. It goes where no cinematographer can walk, and sees what no eye can reach.</p>
+      <div class="arsenal-specs">
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Camera</span>
+          <span class="arsenal-spec-val">4K / 30fps</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Range</span>
+          <span class="arsenal-spec-val">10km OcuSync</span>
+        </div>
+        <div class="arsenal-spec">
+          <span class="arsenal-spec-key">Weight</span>
+          <span class="arsenal-spec-val">249g</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div>
+    <div class="section-label reveal">The Filmmaker</div>
+    <blockquote class="about-quote reveal reveal-delay-1">
+      "I chase stories, moments and emotions — one frame at a time."
+    </blockquote>
+    <p class="about-body reveal reveal-delay-2">
+      Based in India, I'm a cinematographer and visual storyteller who believes every frame is a sentence, every cut is a comma, and every film is a conversation with the audience.
+    </p>
+    <p class="about-body reveal reveal-delay-2">
+      My work spans brand films, commercial productions, documentary-style content, and personal visual essays — always rooted in cinematic authenticity and emotional truth.
+    </p>
+    <a href="#contact" class="hero-cta reveal reveal-delay-3" style="display:inline-flex; margin-top:1rem;">Let's Create Together</a>
+  </div>
+
+  <div class="about-visual reveal reveal-delay-1">
+    <div class="about-badge">
+      <span class="about-badge-title">@30.mki</span>
+      <span class="about-badge-sub">Instagram · Cinematographer</span>
+    </div>
+    <div class="about-visual-text">FILM</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-bg-text">CONTACT</div>
+  <div class="contact-content">
+    <div class="section-label reveal" style="justify-content:center">Get In Touch</div>
+    <h2 class="contact-title reveal">
+      Let's Build Something<br>Extraordinary
+    </h2>
+    <p class="contact-sub reveal reveal-delay-1">Open for brand films, commercials, and creative collaborations.</p>
+
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="https://instagram.com/30.mki" target="_blank" class="contact-link">
+        <div class="contact-link-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <span class="contact-link-label">Instagram</span>
+        <span class="contact-link-val">@30.mki</span>
+      </a>
+
+      <div class="contact-divider"></div>
+
+      <a href="mailto:skumarpati6142@gmail.com" class="contact-link">
+        <div class="contact-link-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <span class="contact-link-label">Email</span>
+        <span class="contact-link-val">skumarpati6142@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>
+    <div class="footer-logo">24FPS DIARIES</div>
+    <div class="footer-tagline">Every Frame Tells A Story</div>
+  </div>
+  <div class="footer-copy">© 2024 24FPS Diaries. All rights reserved.</div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+/* ─── CURSOR ─── */
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function anim() {
+  cx += (mx - cx) * 0.12;
+  cy += (my - cy) * 0.12;
+  cursor.style.left = cx + 'px';
+  cursor.style.top  = cy + 'px';
+  requestAnimationFrame(anim);
+})();
+document.querySelectorAll('a, button, .work-card, .masonry-item, .arsenal-card, .featured-play')
+  .forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+/* ─── PARTICLES ─── */
+const pContainer = document.getElementById('particles');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (8 + Math.random() * 18) + 's';
+  p.style.animationDelay    = (Math.random() * 20) + 's';
+  p.style.opacity = (0.2 + Math.random() * 0.6).toString();
+  p.style.width  = (Math.random() > 0.7 ? 3 : 2) + 'px';
+  p.style.height = p.style.width;
+  pContainer.appendChild(p);
+}
+
+/* ─── NAV SCROLL ─── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ─── MOBILE NAV ─── */
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
+);
+
+/* ─── REVEAL ON SCROLL ─── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ─── PHOTO CATEGORY FILTER ─── */
+document.querySelectorAll('.photo-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.photo-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+/* ─── 3D TILT ON CARDS ─── */
+document.querySelectorAll('.work-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width  - 0.5;
+    const y = (e.clientY - rect.top)  / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg) scale(1.01)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+/* ─── SMOOTH SCROLL ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
