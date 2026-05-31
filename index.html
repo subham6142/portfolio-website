@@ -342,7 +342,7 @@
 
   .work-card-info { 
     position:absolute;
-    left:25px;
+    left:50px;
     bottom:50px;
     z-index:10; 
   }
@@ -364,8 +364,8 @@
   }
   .work-hover-btn{
     position:absolute;
-    bottom:30px;
-    right:25px;
+    bottom:50px;
+    right:50px;
     left:auto;
     top:auto;
     z-index:20;
@@ -393,6 +393,22 @@
   }
   .work-card:hover .work-hover-btn{
     box-shadow: 0 0 30px var(--red-glow);
+  }
+  @media (max-width: 768px) {
+
+    .work-hover-btn{
+        top:30px;
+        right:20px;
+
+        bottom:auto;
+        left:auto;
+    }
+    .work-card-info { 
+    position:absolute;
+    left:15px;
+    bottom:30px; 
+    }
+
   }
   .view-all-link {
     font-family: 'Inter', sans-serif;
