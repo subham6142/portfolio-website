@@ -1416,30 +1416,21 @@ document.querySelectorAll('.photo-cat').forEach(btn => {
 });
 
 /* ─── 3D TILT ON CARDS ─── */
-document.querySelectorAll('.work-card').forEach(card => {
-
-    const video = card.querySelector('.work-video');
-
-    card.addEventListener('mousemove', e => {
-
-        const rect = card.getBoundingClientRect();
-
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-        video.style.transform =
-        `scale(1.15)
-         rotateY(${x * 4}deg)
-         rotateX(${-y * 3}deg)`;
-
-    });
-
-    card.addEventListener('mouseleave', () => {
-
-        video.style.transform = 'scale(1.05)';
-
-    });
-
+document.querySelectorAll('.work-video').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width  - 0.5;
+    const y = (e.clientY - rect.top)  / rect.height - 0.5;
+    card.style.transform =
+    `perspective(1200px)
+     rotateY(${x * 8}deg)
+     rotateX(${-y * 6}deg)
+     translateZ(20px)
+     scale(1.03)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
 });
 
 /* ─── SMOOTH SCROLL ─── */
