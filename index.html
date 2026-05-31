@@ -386,12 +386,6 @@
   .work-card:hover .work-hover-btn{
     box-shadow: 0 0 30px var(--red-glow);
   }
-  .work-tilt{
-    width:100%;
-    height:100%;
-    transition:transform .15s ease-out;
-    transform-style:preserve-3d;
-  }
   @media (max-width: 768px) {
 
     .work-hover-btn{
@@ -944,8 +938,8 @@
 
   <div class="works-grid">
 
-    <div class="work-card">
-      <div class="work-tilt">
+    <div class="work-card tilt-card">
+      <div class="work-card-inner">
         <video class="work-video"
         muted
         loop
@@ -1424,7 +1418,7 @@ document.querySelectorAll('.photo-cat').forEach(btn => {
 /* ─── 3D TILT ON CARDS ─── */
 document.querySelectorAll('.work-card').forEach(card => {
 
-    const video = card.querySelector('.work-tilt');
+    const video = card.querySelector('.work-video');
 
     card.addEventListener('mousemove', e => {
 
