@@ -1413,7 +1413,7 @@ document.querySelectorAll('.photo-cat').forEach(btn => {
 });
 
 /* ─── 3D TILT ON CARDS ─── */
-/*document.querySelectorAll('.work-card').forEach(card => {
+document.querySelectorAll('.work-card-inner').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width  - 0.5;
@@ -1429,7 +1429,7 @@ document.querySelectorAll('.photo-cat').forEach(btn => {
     card.style.transform = '';
   });
 });
-*/
+
 /* ─── SMOOTH SCROLL ─── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
