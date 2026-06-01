@@ -868,7 +868,8 @@ if(!isMobile){
 /* ══════════════════════════════════════════
    AERIAL VIDEO — hover play/pause
 ══════════════════════════════════════════ */
-function handleMobileAerialVideos(){
+document.querySelectorAll('.aerial-video').forEach(video=>{ const item=video.closest('.aerial-item'); item.addEventListener('mouseenter',()=>video.play()); item.addEventListener('mouseleave',()=>video.pause()); });
+ function handleMobileAerialVideos(){
     if(window.innerWidth > 768) return;
     const videos =
     document.querySelectorAll('.aerial-video,.featured-video');
