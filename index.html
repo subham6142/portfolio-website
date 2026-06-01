@@ -226,6 +226,15 @@
     align-self: flex-start;
     margin-bottom: 1.5rem;
   }
+  .featured-header{
+    padding:6rem 3rem 4rem;
+    background:var(--charcoal);
+  }
+  @media(max-width:768px){
+    .featured-header{
+        padding:4rem 1.5rem 3rem;
+    }
+  }
   .featured-watch-btn svg { width:13px; height:13px; fill:currentColor; }
   .featured-watch-btn:hover { background:var(--gold); color:var(--black); box-shadow:0 0 30px var(--gold-glow); }
 
@@ -476,6 +485,17 @@
           both visuals get hover events,
           16:9 enforced via aspect-ratio
 -->
+<div class="featured-header">
+    <div class="section-label reveal">
+        Narrative Cinema
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">
+        Short Films
+    </h2>
+    <p class="section-sub reveal reveal-delay-2">
+        Stories crafted from concept to final frame<br>DOP, Editing, and Visual Storytelling.
+    </p>
+</div>
 <section id="featured" style="padding:0;">
 
   <!-- ROW 1: FACE.AI -->
