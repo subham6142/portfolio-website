@@ -1193,8 +1193,8 @@
         <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307974/lost_kibn3z.mp4" type="video/mp4">
         </video>
     <div class="featured-big-text">Face.ai</div>
-    <div class="featured-play" id="featuredSoundBtn">
-    <svg id="soundIcon"
+    <div class="featured-play" class="featuredSoundBtn">
+    <svg 
      width="24"
      height="24"
      viewBox="0 0 24 24"
@@ -1248,7 +1248,7 @@
         </video>
     <div class="featured-big-text">lost</div>
     <div class="featured-play" id="featuredSoundBtn">
-    <svg id="soundIcon"
+    <svg 
      width="24"
      height="24"
      viewBox="0 0 24 24"
@@ -1812,77 +1812,67 @@ aerialVideos.forEach(video => {
 
 /*_______featured videos_________*/
   
-const featuredVideo =
-document.querySelector('.featured-video');
+const featuredVideos =
+document.querySelectorAll('.featured-video');
 
-featuredVideos.forEach(video=>{
+featuredVideos.forEach(video => {
 
     const container =
     video.closest('.featured');
 
-    container.addEventListener('mouseenter',()=>{
-
+    container.addEventListener('mouseenter', () => {
         video.play();
-
     });
 
-    container.addEventListener('mouseleave',()=>{
-
+    container.addEventListener('mouseleave', () => {
         video.pause();
-
     });
 
 });
 
 const featuredBtn =
-document.getElementById('featuredSoundBtn');
+  
+document.querySelectorAll('.featuredSoundBtn')
+.forEach(btn => {
+    const section =
+    btn.closest('.featured');
 
-featuredBtn.addEventListener('click', () => {
+    const video =
+    section.querySelector('.featured-video');
 
-    featuredVideo.muted =
-    !featuredVideo.muted;
+    btn.addEventListener('click', () => {
 
-    if(featuredVideo.muted){
+        video.muted = !video.muted;
 
-        featuredBtn.innerHTML = `
+        if(video.muted){
 
-        <svg width="24" height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2">
+            btn.innerHTML = `
+            <svg width="24" height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>`;
+        }
 
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        else{
 
-        <line x1="23" y1="9" x2="17" y2="15"></line>
+            btn.innerHTML = `
+            <svg width="24" height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15 9a5 5 0 0 1 0 6"></path>
+                <path d="M18 6a9 9 0 0 1 0 12"></path>
+            </svg>`;
+        }
 
-        <line x1="17" y1="9" x2="23" y2="15"></line>
-
-        </svg>
-
-        `;
-
-    }else{
-
-        featuredBtn.innerHTML = `
-
-        <svg width="24" height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2">
-
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-
-        <path d="M15 9a5 5 0 0 1 0 6"></path>
-
-        <path d="M18 6a9 9 0 0 1 0 12"></path>
-
-        </svg>
-
-        `;
-
-    }
+    });
 
 });
 </script>
