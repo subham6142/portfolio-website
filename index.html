@@ -548,6 +548,65 @@
         0 0 20px rgba(198,161,91,.35);
 
   }
+  .featured-play{
+
+    width:80px;
+    height:80px;
+
+    border:1.5px solid rgba(198,161,91,.6);
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+    z-index:50;
+
+    background:rgba(5,5,5,.35);
+    backdrop-filter:blur(8px);
+
+    color:#C6A15B;
+
+    cursor:pointer;
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+}
+
+.featured-play:hover{
+
+    transform:scale(1.1);
+
+    border-color:#C6A15B;
+
+    box-shadow:
+        0 0 25px rgba(198,161,91,.25),
+        0 0 50px rgba(123,15,18,.35);
+
+}
+
+.featured-play svg{
+
+    width:28px;
+    height:28px;
+
+    stroke:#C6A15B;
+
+    transition:
+        transform .3s ease,
+        stroke .3s ease;
+
+}
+
+.featured-play:hover svg{
+
+    transform:scale(1.1);
+
+}
 
   /* ─── AERIAL / DRONE ─── */
   #aerial {
@@ -1152,8 +1211,20 @@
         <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307974/lost_kibn3z.mp4" type="video/mp4">
         </video>
     <div class="featured-big-text">Face.ai</div>
-    <div class="featured-play">
-      <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <div class="featured-play" id="featuredSoundBtn">
+
+    <svg width="24" height="24" viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2">
+    
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    
+    <path d="M15 9a5 5 0 0 1 0 6"></path>
+    
+    <path d="M18 6a9 9 0 0 1 0 12"></path>
+    
+    </svg>
     </div>
   </div>
 
@@ -1193,8 +1264,20 @@
         <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307971/lost_1_mw0eic.mp4" type="video/mp4">
         </video>
     <div class="featured-big-text">lost</div>
-    <div class="featured-play">
-      <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <div class="featured-play" id="featuredSoundBtn">
+
+    <svg width="24" height="24" viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2">
+    
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    
+    <path d="M15 9a5 5 0 0 1 0 6"></path>
+    
+    <path d="M18 6a9 9 0 0 1 0 12"></path>
+    
+    </svg>
     </div>
   </div>
 
@@ -1757,6 +1840,28 @@ featuredVisual.addEventListener('mouseenter',()=>{
 featuredVisual.addEventListener('mouseleave',()=>{
 
     featuredVideo.pause();
+
+});
+
+const featuredBtn =
+document.getElementById('featuredSoundBtn');
+
+featuredBtn.addEventListener('click', () => {
+
+    featuredVideo.muted =
+    !featuredVideo.muted;
+
+    if(featuredVideo.muted){
+
+        featuredBtn.style.borderColor =
+        'rgba(198,161,91,.6)';
+
+    }else{
+
+        featuredBtn.style.borderColor =
+        '#C6A15B';
+
+    }
 
 });
 </script>
