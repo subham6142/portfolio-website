@@ -496,8 +496,8 @@
   }
   .aerial-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
     background: rgba(198,161,91,.06);
     margin-top: 4rem;
   }
@@ -512,7 +512,7 @@
   }
   .aerial-item:first-child {
     grid-column: span 2;
-    aspect-ratio: 16/7;
+    aspect-ratio: 16/9;
   }
   @media (max-width: 700px) {
     .aerial-item:first-child { grid-column: span 1; aspect-ratio: 4/3; }
@@ -534,6 +534,13 @@
     background: rgba(5,5,5,.5);
     padding: .3rem .8rem;
     backdrop-filter: blur(4px);
+  }
+  .aerial-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
 
   /* ─── PHOTOGRAPHY ─── */
@@ -1099,18 +1106,63 @@
 
   <div class="aerial-grid">
     <div class="aerial-item">
-      <div class="aerial-bg"></div>
-      <div class="aerial-label">Cloud Lines — 400m</div>
+      <video class="aerial-video"
+        muted
+        playsinline
+        preload="metadata"
+        poster="photos/lake-thumb.jpg">
+
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293027/lake_sunset_iwnflg.mp4"
+                type="video/mp4">
+
+    </video>
+      <div class="aerial-label">LAKE - SUNSET</div>
     </div>
     <div class="aerial-item">
-      <div class="aerial-bg"></div>
+      <video class="aerial-video"
+        muted
+        playsinline
+        preload="metadata"
+        poster="photos/lake-thumb.jpg">
+
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293114/urban_grid_igohhc.mp4"
+                type="video/mp4">
+      </video>
       <div class="aerial-label">Urban Grid</div>
     </div>
     <div class="aerial-item">
-      <div class="aerial-bg"></div>
-      <div class="aerial-label">Coastal Dawn</div>
+      <video class="aerial-video"
+        muted
+        playsinline
+        preload="metadata"
+        poster="photos/lake-thumb.jpg">
+
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293091/maharastra_dsc28w.mp4">
+      </video>
+      <div class="aerial-label">MAHARASTRA - MOUNTAINS</div>
     </div>
-  </div>
+  <div class="aerial-item">
+      <video class="aerial-video"
+        muted
+        playsinline
+        preload="metadata"
+        poster="photos/lake-thumb.jpg">
+
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293107/night_city_v65nqo.mp4">
+      </video>
+      <div class="aerial-label">NIGHT CITY</div>
+    </div>
+  <div class="aerial-item">
+      <video class="aerial-video"
+        muted
+        playsinline
+        preload="metadata"
+        poster="photos/lake-thumb.jpg">
+
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293118/hostels_gw2zb6.mp44">
+      </video>
+      <div class="aerial-label">CAMPUS - HOSTEL</div>
+    </div>
 </section>
 
 <div class="divider"></div>
@@ -1526,6 +1578,29 @@ if(!isMobile){
     });
 
 }
+/* AERIAL VIDEO HOVER PLAY */
+
+const aerialVideos =
+document.querySelectorAll('.aerial-video');
+
+aerialVideos.forEach(video => {
+
+    const item =
+    video.closest('.aerial-item');
+
+    item.addEventListener('mouseenter', () => {
+
+        video.play();
+
+    });
+
+    item.addEventListener('mouseleave', () => {
+
+        video.pause();
+
+    });
+
+});
 </script>
 </body>
 </html>
