@@ -862,11 +862,46 @@ if(!isMobile){
 /* ══════════════════════════════════════════
    AERIAL VIDEO — hover play/pause
 ══════════════════════════════════════════ */
-document.querySelectorAll('.aerial-video').forEach(video=>{
-  const item=video.closest('.aerial-item');
-  item.addEventListener('mouseenter',()=>video.play());
-  item.addEventListener('mouseleave',()=>video.pause());
-});
+function handleMobileAerialVideos(){
+    if(window.innerWidth > 768) return;
+    const videos =
+    document.querySelectorAll('.aerial-video,.featured-video');
+    let closestVideo = null;
+    let closestDistance = Infinity;
+    const screenCenter =
+    window.innerHeight / 2;
+    videos.forEach(video=>{
+        const rect =
+        video.getBoundingClientRect();
+        const videoCenter =
+        rect.top + rect.height/2;
+        const distance =
+        Math.abs(videoCenter - screenCenter);
+        if(distance < closestDistance){
+            closestDistance = distance;
+            closestVideo = video;
+        }
+    });
+    videos.forEach(video=>{
+        if(video === closestVideo){
+            video.play().catch(()=>{});
+        }else{
+            video.pause();
+        }
+    });
+}
+window.addEventListener(
+    'scroll',
+    handleMobileAerialVideos
+);
+window.addEventListener(
+    'resize',
+    handleMobileAerialVideos
+);
+window.addEventListener(
+    'load',
+    handleMobileAerialVideos
+);
 
 /* ══════════════════════════════════════════
    FEATURED VIDEOS — hover play/pause + sound toggle
