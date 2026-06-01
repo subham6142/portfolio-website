@@ -1622,27 +1622,91 @@ if(!isMobile){
 }
 /* AERIAL VIDEO HOVER PLAY */
 
-const aerialVideos =
-document.querySelectorAll('.aerial-video');
+const videos = document.querySelectorAll('.aerial-video');
 
-aerialVideos.forEach(video => {
+const isMobile =
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    const item =
-    video.closest('.aerial-item');
+if(!isMobile){
 
-    item.addEventListener('mouseenter', () => {
+    // Desktop Hover
 
-        video.play();
+    videos.forEach(video => {
+
+        const card = video.closest('.aerial-item');
+
+        card.addEventListener('mouseenter', () => {
+
+            video.currentTime = 0;
+            video.play();
+
+        });
+
+        card.addEventListener('mouseleave', () => {
+
+            video.pause();
+            video.currentTime = 0;
+
+        });
 
     });
 
-    item.addEventListener('mouseleave', () => {
+} else {
 
-        video.pause();
+    // Mobile — auto-play whichever video is closest to viewport center
+    function getDistanceFromCenter(el) {
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const vpCenter = window.innerHeight / 2;
+        return Math.abs(elCenter - vpCenter);
+    }
 
-    });
+    function updateCenterVideo() {
+        let closest = null;
+        let minDist = Infinity;
 
-});
+        videos.forEach(video => {
+            const rect = video.getBoundingClientRect();
+            // Only consider videos that are at least partially visible
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                const dist = getDistanceFromCenter(video);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = video;
+                }
+            }
+        });
+
+        videos.forEach(video => {
+            if (video === closest) {
+                if (video.paused) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                }
+            } else {
+                if (!video.paused) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            }
+        });
+    }
+
+    // Throttle scroll for performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateCenterVideo();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Run once on load
+    updateCenterVideo();
+}
 </script>
 </body>
 </html>
