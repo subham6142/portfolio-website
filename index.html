@@ -782,7 +782,7 @@ const cursor = document.getElementById('cursor');
 let mx=0,my=0,cx=0,cy=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function anim(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(anim);})();
-document.querySelectorAll('a,button,.work-card,.aerial-item,.masonry-item,.arsenal-card').forEach(el=>{
+document.querySelectorAll('a,button,.work-card,.aerial-item,.featured-visual,.masonry-item,.arsenal-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>cursor.classList.add('expand'));
   el.addEventListener('mouseleave',()=>cursor.classList.remove('expand'));
 });
