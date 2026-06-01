@@ -1693,18 +1693,22 @@ aerialVideos.forEach(video => {
         video.pause();
     });
 });
-const featuredVideos =
+const featuredVideo =
+document.querySelector('.featured-video');
 
-document.querySelectorAll('.featured-video');
-aerialVideos.forEach(video => {
-    const item =
-    video.closest('.featured-visual');
-    item.addEventListener('mouseenter', () => {
-        video.play();
-    });
-    item.addEventListener('mouseleave', () => {
-        video.pause();
-    });
+const featuredVisual =
+document.querySelector('.featured-visual');
+
+featuredVisual.addEventListener('mouseenter',()=>{
+
+    featuredVideo.play();
+
+});
+
+featuredVisual.addEventListener('mouseleave',()=>{
+
+    featuredVideo.pause();
+
 });
 </script>
 </body>
