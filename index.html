@@ -413,19 +413,21 @@
   .view-all-link:hover { border-color: var(--gold); }
 
   /* ─── FEATURED PROJECT ─── */
-  .featured{
-    min-height:90vh;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-items:center;
-    overflow:hidden;
-    border-bottom:1px solid rgba(198,161,91,.15);
+  #featured {
+    background: var(--charcoal);
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 0;
+    overflow: hidden;
   }
-  @media(max-width:900px){
-    .featured{
-        grid-template-columns:1fr;
-        min-height:auto;
-    }
+  .featured:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  @media (max-width: 700px) {
+    .featured:first-child { grid-column: span 1; aspect-ratio: 4/3; }
   }
   .featured-visual {
     position: relative;
@@ -1193,8 +1195,8 @@
         <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307974/lost_kibn3z.mp4" type="video/mp4">
         </video>
     <div class="featured-big-text">Face.ai</div>
-    <div class="featured-play" class="featuredSoundBtn">
-    <svg 
+    <div class="featured-play" id="featuredSoundBtn">
+    <svg id="soundIcon"
      width="24"
      height="24"
      viewBox="0 0 24 24"
@@ -1248,7 +1250,7 @@
         </video>
     <div class="featured-big-text">lost</div>
     <div class="featured-play" id="featuredSoundBtn">
-    <svg 
+    <svg id="soundIcon"
      width="24"
      height="24"
      viewBox="0 0 24 24"
@@ -1809,70 +1811,73 @@ aerialVideos.forEach(video => {
         video.pause();
     });
 });
+const featuredVideo =
+document.querySelector('.featured-video');
 
-/*_______featured videos_________*/
-  
-const featuredVideos =
-document.querySelectorAll('.featured-video');
+const featuredVisual =
+document.querySelector('.featured-visual');
 
-featuredVideos.forEach(video => {
+featuredVisual.addEventListener('mouseenter',()=>{
 
-    const container =
-    video.closest('.featured');
+    featuredVideo.play();
 
-    container.addEventListener('mouseenter', () => {
-        video.play();
-    });
+});
 
-    container.addEventListener('mouseleave', () => {
-        video.pause();
-    });
+featuredVisual.addEventListener('mouseleave',()=>{
+
+    featuredVideo.pause();
 
 });
 
 const featuredBtn =
-  
-document.querySelectorAll('.featuredSoundBtn')
-.forEach(btn => {
-    const section =
-    btn.closest('.featured');
+document.getElementById('featuredSoundBtn');
 
-    const video =
-    section.querySelector('.featured-video');
+featuredBtn.addEventListener('click', () => {
 
-    btn.addEventListener('click', () => {
+    featuredVideo.muted =
+    !featuredVideo.muted;
 
-        video.muted = !video.muted;
+    if(featuredVideo.muted){
 
-        if(video.muted){
+        featuredBtn.innerHTML = `
 
-            btn.innerHTML = `
-            <svg width="24" height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>`;
-        }
+        <svg width="24" height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2">
 
-        else{
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
 
-            btn.innerHTML = `
-            <svg width="24" height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15 9a5 5 0 0 1 0 6"></path>
-                <path d="M18 6a9 9 0 0 1 0 12"></path>
-            </svg>`;
-        }
+        <line x1="23" y1="9" x2="17" y2="15"></line>
 
-    });
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+
+        </svg>
+
+        `;
+
+    }else{
+
+        featuredBtn.innerHTML = `
+
+        <svg width="24" height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2">
+
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+
+        <path d="M15 9a5 5 0 0 1 0 6"></path>
+
+        <path d="M18 6a9 9 0 0 1 0 12"></path>
+
+        </svg>
+
+        `;
+
+    }
 
 });
 </script>
