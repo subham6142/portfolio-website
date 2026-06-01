@@ -1693,12 +1693,12 @@ aerialVideos.forEach(video => {
         video.pause();
     });
 });
-const aerialVideos =
+const featuredVideos =
 
-document.querySelectorAll('.aerial-video');
+document.querySelectorAll('.featured-video');
 aerialVideos.forEach(video => {
     const item =
-    video.closest('.aerial-item');
+    video.closest('.featured-visual');
     item.addEventListener('mouseenter', () => {
         video.play();
     });
