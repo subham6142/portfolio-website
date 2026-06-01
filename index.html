@@ -488,6 +488,23 @@
     font-size: .65rem; letter-spacing: .2em;
     text-transform: uppercase; color: var(--grey);
   }
+  .featured-video{
+    position:absolute;
+    inset:0;
+    width:115%;
+    height:115%;
+    top:-7.5%;
+    left:-7.5%;
+    object-fit:cover;
+    z-index:1;
+    pointer-events:none;
+    transition:transform .6s cubic-bezier(.23,1,.32,1);
+    will-change:transform;
+    filter:brightness(.8);
+  }
+  .featured-visual:hover .featured-video{
+    transform:scale(1.04);
+  }
 
   /* ─── AERIAL / DRONE ─── */
   #aerial {
@@ -1083,7 +1100,15 @@
 <!-- ═══ FEATURED PROJECT ═══ -->
 <section id="featured" style="padding:0;">
   <div class="featured-visual">
-    <div class="featured-big-text">INNO</div>
+    <video class="featured-video"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="photos/face-thumbnail.jpg">
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307974/lost_kibn3z.mp4" type="video/mp4">
+        </video>
+    <div class="featured-big-text">Face.ai</div>
     <div class="featured-play">
       <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     </div>
@@ -1091,22 +1116,60 @@
 
   <div class="featured-info">
     <div class="section-label reveal">Featured Project</div>
-    <h2 class="featured-title reveal">INNO</h2>
+    <h2 class="featured-title reveal">FACE.AI</h2>
     <p class="featured-desc reveal reveal-delay-1">
-      A cinematic brand film that captures the essence of innovation through the lens of raw emotion. Shot on Sony FX30 with DJI Ronin stabilization across 3 locations over 2 days.
+      FACE.AI is a short film about the dark side of AI and digital manipulation. Through the lens of face morphing and identity theft, it explores how technology can distort reality and destroy trust in the digital age.
     </p>
-    <a href="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4" class="hero-cta reveal reveal-delay-2" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
+    <a href="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780312512/Face.Ai_1_d73omt.mp4" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
     <div class="featured-stats reveal reveal-delay-3">
       <div>
-        <span class="featured-stat-val">3</span>
+        <span class="featured-stat-val">7</span>
         <span class="featured-stat-label">Locations</span>
       </div>
       <div>
-        <span class="featured-stat-val">2</span>
+        <span class="featured-stat-val">3</span>
         <span class="featured-stat-label">Days Shot</span>
       </div>
       <div>
-        <span class="featured-stat-val">4K</span>
+        <span class="featured-stat-val">2K</span>
+        <span class="featured-stat-label">Resolution</span>
+      </div>
+    </div>
+  </div>
+  
+   <div class="featured-visual">
+    <video class="featured-video"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="photos/lost-thumbnail.jpg">
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780307971/lost_1_mw0eic.mp4" type="video/mp4">
+        </video>
+    <div class="featured-big-text">lost</div>
+    <div class="featured-play">
+      <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    </div>
+  </div>
+
+  <div class="featured-info">
+    <div class="section-label reveal">Featured Project</div>
+    <h2 class="featured-title reveal">lost</h2>
+    <p class="featured-desc reveal reveal-delay-1">
+      LOST is a short film that explores isolation, uncertainty, and the search for meaning. It follows a journey through confusion and self-discovery, reminding us that sometimes being lost is the first step toward finding ourselves.
+    </p>
+    <a href="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780314179/Lost_Full_iog3ls.mp4" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
+    <div class="featured-stats reveal reveal-delay-3">
+      <div>
+        <span class="featured-stat-val">1</span>
+        <span class="featured-stat-label">Locations</span>
+      </div>
+      <div>
+        <span class="featured-stat-val">1</span>
+        <span class="featured-stat-label">night Shot</span>
+      </div>
+      <div>
+        <span class="featured-stat-val">2K</span>
         <span class="featured-stat-label">Resolution</span>
       </div>
     </div>
@@ -1617,6 +1680,19 @@ if(!isMobile){
 }
 /* AERIAL VIDEO HOVER PLAY */
 
+const aerialVideos =
+
+document.querySelectorAll('.aerial-video');
+aerialVideos.forEach(video => {
+    const item =
+    video.closest('.aerial-item');
+    item.addEventListener('mouseenter', () => {
+        video.play();
+    });
+    item.addEventListener('mouseleave', () => {
+        video.pause();
+    });
+});
 const aerialVideos =
 
 document.querySelectorAll('.aerial-video');
