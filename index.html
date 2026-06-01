@@ -505,6 +505,48 @@
   .featured-visual:hover .featured-video{
     transform:scale(1.04);
   }
+  .featured-hover-btn{
+    position:absolute;
+    bottom:40px;
+    right:40px;
+
+    z-index:9999;
+
+    padding:12px 24px;
+
+    border:1px solid rgba(198,161,91,.8);
+    border-radius:8px;
+
+    background:rgba(5,5,5,.75);
+
+    backdrop-filter:blur(10px);
+
+    color:#F4E8D0;
+
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:600;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    transition:all .35s ease;
+  }
+
+  .featured-hover-btn:hover{
+
+    background:#C6A15B;
+
+    color:#050505;
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 20px rgba(198,161,91,.35);
+
+  }
 
   /* ─── AERIAL / DRONE ─── */
   #aerial {
@@ -1120,7 +1162,10 @@
     <p class="featured-desc reveal reveal-delay-1">
       FACE.AI is a short film about the dark side of AI and digital manipulation. Through the lens of face morphing and identity theft, it explores how technology can distort reality and destroy trust in the digital age.
     </p>
-    <a href="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780312512/Face.Ai_1_d73omt.mp4" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
+    <div class="featured-hover-btn"
+          onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780312512/Face.Ai_1_d73omt.mp4','_blank')">
+          WATCH FILM
+    </div>
     <div class="featured-stats reveal reveal-delay-3">
       <div>
         <span class="featured-stat-val">7</span>
@@ -1158,7 +1203,10 @@
     <p class="featured-desc reveal reveal-delay-1">
       LOST is a short film that explores isolation, uncertainty, and the search for meaning. It follows a journey through confusion and self-discovery, reminding us that sometimes being lost is the first step toward finding ourselves.
     </p>
-    <a href="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780314179/Lost_Full_iog3ls.mp4" style="align-self:flex-start; margin-top:0; margin-bottom:2rem;">Watch Film</a>
+    <div class="featured-hover-btn"
+          onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780314179/Lost_Full_iog3ls.mp4','_blank')">
+          WATCH FILM
+    </div>
     <div class="featured-stats reveal reveal-delay-3">
       <div>
         <span class="featured-stat-val">1</span>
