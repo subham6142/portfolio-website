@@ -509,6 +509,11 @@
     aspect-ratio: 4/3;
     overflow: hidden;
     background: var(--charcoal);
+    transition:
+        transform .35s cubic-bezier(.22,1,.36,1),
+        box-shadow .35s ease;
+
+    transform-style: preserve-3d;
   }
   .aerial-item:first-child {
     grid-column: span 2;
@@ -1167,7 +1172,7 @@
         preload="metadata"
         poster="photos/lake-thumb.jpg">
 
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293118/hostels_gw2zb6.mp44">
+        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780293118/hostels_gw2zb6.mp4">
       </video>
       <div class="aerial-label">CAMPUS - HOSTEL</div>
     </div>
