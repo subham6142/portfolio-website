@@ -1555,7 +1555,6 @@ if(!isMobile){
         card.addEventListener('mouseleave', () => {
 
             video.pause();
-            video.load();
 
         });
 
@@ -1596,8 +1595,6 @@ if(!isMobile){
             } else {
                 if (!video.paused) {
                     video.pause();
-                    video.currentTime = 0;
-                    video.load();
                 }
             }
         });
@@ -1631,7 +1628,6 @@ aerialVideos.forEach(video => {
     });
     item.addEventListener('mouseleave', () => {
         video.pause();
-        video:poster.load();
     });
 });
 </script>
