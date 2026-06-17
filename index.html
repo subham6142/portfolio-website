@@ -82,30 +82,179 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   .divider { width:100%; height:1px; background:linear-gradient(to right,transparent,rgba(198,161,91,.25),transparent); }
 
   /* WORKS */
-  #works { background:var(--black); }
-  .works-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:4rem; }
-  .works-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:3px; background:rgba(198,161,91,.08); overflow:visible; }
-  .work-card { position:relative; overflow:visible; background:var(--charcoal); cursor:none; z-index:1; transform-style:preserve-3d; transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease; }
-  .work-card:hover { z-index:100; box-shadow:0 0 0 3px rgba(198,161,91,.3),0 0 30px rgba(123,15,18,.25),0 0 50px rgba(198,161,91,.12); }
-  .work-card:nth-child(1){grid-column:span 7}
-  .work-card:nth-child(2){grid-column:span 5}
-  .work-card:nth-child(3){grid-column:span 4}
-  .work-card:nth-child(4){grid-column:span 4}
-  .work-card:nth-child(5){grid-column:span 4}
-  @media(max-width:900px){.work-card:nth-child(n){grid-column:span 12}}
-  .work-card-inner { aspect-ratio:16/9; display:flex; align-items:flex-end; padding:1.8rem; background:linear-gradient(to top,rgba(5,5,5,.95) 0%,rgba(5,5,5,.2) 60%,transparent 100%); position:relative; overflow:hidden; }
-  .work-video { position:absolute; width:115%; height:115%; top:-7.5%; left:-7.5%; object-fit:cover; z-index:0; pointer-events:none; transition:transform .25s ease-out; will-change:transform; }
-  .work-card:hover .work-video { transform:scale(1.07); }
-  .work-card-info { position:absolute; left:24px; bottom:24px; z-index:10; }
-  @media(max-width:768px){.work-card-info{left:15px;bottom:20px;}}
-  .work-card-num { font-family:'Bebas Neue',sans-serif; font-size:.8rem; letter-spacing:.2em; color:var(--gold); margin-bottom:.35rem; }
-  .work-card-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.5rem,3vw,2.8rem); line-height:1; color:var(--ivory); letter-spacing:.05em; }
-  .work-card-tag { font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; color:var(--grey); margin-top:.4rem; }
-  .work-hover-btn { position:absolute; bottom:24px; right:24px; z-index:20; padding:10px 22px; border:1px solid rgba(198,161,91,.8); border-radius:6px; background:rgba(5,5,5,.75); backdrop-filter:blur(10px); color:var(--ivory); font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:all .3s ease; }
-  .work-hover-btn:hover { background:var(--gold); color:var(--black); transform:translateY(-2px); box-shadow:0 0 20px rgba(198,161,91,.35); }
-  @media(max-width:768px){.work-hover-btn{top:12px;right:12px;bottom:auto;left:auto;padding:8px 14px;font-size:10px;}}
-  .view-all-link { font-family:'Inter',sans-serif; font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(198,161,91,.3); padding-bottom:2px; transition:border-color .3s; white-space:nowrap; margin-left:2rem; }
-  .view-all-link:hover{border-color:var(--gold)}
+  #works{
+  background:var(--black);
+  }
+  
+  .works-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom:4rem;
+  }
+  
+  .works-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:3px;
+  background:rgba(198,161,91,.08);
+  overflow:visible;
+  }
+  
+  .work-card{
+  position:relative;
+  overflow:visible;
+  background:var(--charcoal);
+  cursor:none;
+  z-index:1;
+  transform-style:preserve-3d;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease;
+  }
+  
+  .work-card:hover{
+  z-index:100;
+  box-shadow:0 0 0 3px rgba(198,161,91,.3),0 0 30px rgba(123,15,18,.25),0 0 50px rgba(198,161,91,.12);
+  }
+  
+  .work-card-inner{
+  aspect-ratio:16/9;
+  display:flex;
+  align-items:flex-end;
+  padding:1.8rem;
+  background:linear-gradient(to top,rgba(5,5,5,.95) 0%,rgba(5,5,5,.2) 60%,transparent 100%);
+  position:relative;
+  overflow:hidden;
+  }
+  
+  .work-video{
+  position:absolute;
+  width:115%;
+  height:115%;
+  top:-7.5%;
+  left:-7.5%;
+  object-fit:cover;
+  z-index:0;
+  pointer-events:none;
+  transition:transform .25s ease-out;
+  will-change:transform;
+  }
+  
+  .work-card:hover .work-video{
+  transform:scale(1.07);
+  }
+  
+  .work-card-info{
+  position:absolute;
+  left:24px;
+  bottom:24px;
+  z-index:10;
+  }
+  
+  .work-card-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.8rem;
+  letter-spacing:.2em;
+  color:var(--gold);
+  margin-bottom:.35rem;
+  }
+  
+  .work-card-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.5rem,3vw,2.8rem);
+  line-height:1;
+  color:var(--ivory);
+  letter-spacing:.05em;
+  }
+  
+  .work-card-tag{
+  font-size:.65rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--grey);
+  margin-top:.4rem;
+  }
+  
+  .work-hover-btn{
+  position:absolute;
+  bottom:24px;
+  right:24px;
+  z-index:20;
+  padding:10px 22px;
+  border:1px solid rgba(198,161,91,.8);
+  border-radius:6px;
+  background:rgba(5,5,5,.75);
+  backdrop-filter:blur(10px);
+  color:var(--ivory);
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .3s ease;
+  }
+  
+  .work-hover-btn:hover{
+  background:var(--gold);
+  color:var(--black);
+  transform:translateY(-2px);
+  box-shadow:0 0 20px rgba(198,161,91,.35);
+  }
+  
+  .view-all-link{
+  font-family:'Inter',sans-serif;
+  font-size:.7rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--gold);
+  text-decoration:none;
+  border-bottom:1px solid rgba(198,161,91,.3);
+  padding-bottom:2px;
+  transition:border-color .3s;
+  white-space:nowrap;
+  margin-left:2rem;
+  }
+  
+  .view-all-link:hover{
+  border-color:var(--gold);
+  }
+  
+  .works-category-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:2rem;
+  line-height:1;
+  }
+  
+  @media(max-width:768px){
+  
+  .works-grid{
+  grid-template-columns:1fr;
+  }
+  
+  .work-card-info{
+  left:15px;
+  bottom:20px;
+  }
+  
+  .work-hover-btn{
+  top:12px;
+  right:12px;
+  bottom:auto;
+  left:auto;
+  padding:8px 14px;
+  font-size:10px;
+  }
+  
+  .works-category-title{
+  font-size:2rem;
+  }
+  
+  }
+
 
  /* WORK CATEGORIES */
 
@@ -696,162 +845,143 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <div class="divider"></div>
 
-<!-- SELECTED WORKS -->
 <section id="works">
-  <div class="works-header">
-    <div>
-      <div class="section-label reveal">Selected Works</div>
-      <h2 class="section-title reveal reveal-delay-1">The Projects</h2>
-    </div>
-    <a href="#works" class="view-all-link reveal reveal-delay-2">View All Projects →</a>
-  </div>
- 
-  <!-- COMMERCIAL WORK -->
-
-  <div class="works-category">
-    <div class="works-category-title">Commercial Work</div>
-
-```
-<div class="works-grid">
-
-  <!-- HYUNDAI -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata" poster="photos/hyundai.png">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523698/hyundai_vhrdhv.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523698/hyundai_vhrdhv.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">HYUNDAI</div>
-        <div class="work-card-tag">Commercial · Automotive</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MELBOURNE PIZZA -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata" poster="photos/PIZZA.png">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523705/melbourne_nyroqh.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523705/melbourne_nyroqh.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">MELBOURNE<br>PIZZA</div>
-        <div class="work-card-tag">Commercial · Food Brand</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CAFE CITY ON WHEEL -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata" poster="photos/cafecity.png">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523727/cafe_city_on_wheel_yfxche.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523727/cafe_city_on_wheel_yfxche.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">CAFE CITY<br>ON WHEEL</div>
-        <div class="work-card-tag">Commercial · Cafe Brand</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TIMEZONE -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata" poster="photos/timezone-thumbnail.jpg">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780211965/Long_Clip_ul8rqw.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780211965/Long_Clip_ul8rqw.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">TIMEZONE</div>
-        <div class="work-card-tag">Commercial · Entertainment</div>
-      </div>
-    </div>
-  </div>
-
+<div class="works-header">
+<div>
+<div class="section-label reveal">Selected Works</div>
+<h2 class="section-title reveal reveal-delay-1">The Projects</h2>
 </div>
-```
-
-  </div>
-
-  <!-- CONCERTS & CINEMATIC -->
-
-  <div class="works-category">
-
-```
-<div class="works-category-title" style="margin-top:5rem;">
-  Concerts & Cinematic
+<a href="#works" class="view-all-link reveal reveal-delay-2">View All Projects →</a>
 </div>
+
+<div class="works-category-title">Commercial Work</div>
 
 <div class="works-grid">
 
-  <!-- INNO -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">INNO</div>
-        <div class="work-card-tag">Festival Film</div>
-      </div>
-    </div>
-  </div>
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/hyundai.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523698/hyundai_vhrdhv.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523698/hyundai_vhrdhv.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2025</div>
+<div class="work-card-title">HYUNDAI</div>
+<div class="work-card-tag">Commercial · Automotive</div>
+</div>
+</div>
+</div>
 
-  <!-- HOLI -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780210950/holi_nxkf1e.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780210950/holi_nxkf1e.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2026</div>
-        <div class="work-card-title">HOLI</div>
-        <div class="work-card-tag">Event Film</div>
-      </div>
-    </div>
-  </div>
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/PIZZA.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523705/melbourne_nyroqh.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523705/melbourne_nyroqh.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2025</div>
+<div class="work-card-title">MELBOURNE<br>PIZZA</div>
+<div class="work-card-tag">Commercial · Food Brand</div>
+</div>
+</div>
+</div>
 
-  <!-- SHAAN -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780218388/Shaan_1_igv6do.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780218388/Shaan_1_igv6do.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2026</div>
-        <div class="work-card-title">SHAAN</div>
-        <div class="work-card-tag">Concert Film</div>
-      </div>
-    </div>
-  </div>
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/cafecity.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523727/cafe_city_on_wheel_yfxche.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1781523727/cafe_city_on_wheel_yfxche.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2025</div>
+<div class="work-card-title">CAFE CITY<br>ON WHEEL</div>
+<div class="work-card-tag">Commercial · Cafe Brand</div>
+</div>
+</div>
+</div>
 
-  <!-- SPICMACAY -->
-  <div class="work-card">
-    <div class="work-card-inner">
-      <video class="work-video" muted loop playsinline preload="metadata">
-        <source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780254966/spicmacay_t3uu4o.mp4" type="video/mp4">
-      </video>
-      <button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780254966/spicmacay_t3uu4o.mp4','_blank')">WATCH FILM</button>
-      <div class="work-card-info">
-        <div class="work-card-num">2025</div>
-        <div class="work-card-title">SPICMACAY</div>
-        <div class="work-card-tag">Classical Performance</div>
-      </div>
-    </div>
-  </div>
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/timezone-thumbnail.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780211965/Long_Clip_ul8rqw.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780211965/Long_Clip_ul8rqw.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2025</div>
+<div class="work-card-title">TIMEZONE</div>
+<div class="work-card-tag">Commercial · Entertainment</div>
+</div>
+</div>
+</div>
 
 </div>
+
+<div style="height:120px;"></div>
+
+<div class="works-category-title">Concerts & Cinematic</div>
+
+<div class="works-grid">
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/inno-thumbnail.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780216937/inno_wuhl4e.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">11 — 2025</div>
+<div class="work-card-title">INNO<br>College Fest</div>
+<div class="work-card-tag">Festival · Cinematic</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/holi-thumbnail.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780210950/holi_nxkf1e.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780210950/holi_nxkf1e.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">03 — 2026</div>
+<div class="work-card-title">HOLI</div>
+<div class="work-card-tag">Event · Color Story</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/shaan-thumbnail.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780218388/Shaan_1_igv6do.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780218388/Shaan_1_igv6do.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">03 — 2026</div>
+<div class="work-card-title">SHAAN<br>Celebrity Night</div>
+<div class="work-card-tag">Concert · Live Show</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/spicmacay-thumbnail.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780254966/spicmacay_t3uu4o.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780254966/spicmacay_t3uu4o.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">05 — 2025</div>
+<div class="work-card-title">SPICMACAY</div>
+<div class="work-card-tag">Traditional · Classical</div>
+</div>
+</div>
+</div>
+
+</div>
+
 </section>
+
 
 <div class="divider"></div>
 
