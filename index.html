@@ -262,6 +262,143 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   .featured-stat-val { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:var(--gold); display:block; }
   .featured-stat-label { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--grey); }
 
+
+  /* =====================================
+   TRUSTED BY / BRANDS & IMPACT SECTION
+===================================== */
+
+#trusted{
+    background:var(--charcoal);
+    padding:6rem 3rem;
+    border-top:1px solid rgba(198,161,91,.1);
+    border-bottom:1px solid rgba(198,161,91,.1);
+    text-align:center;
+    overflow:hidden;
+    position:relative;
+}
+
+.trusted-watermark{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(8rem,20vw,20rem);
+    color:rgba(198,161,91,.025);
+    pointer-events:none;
+    user-select:none;
+    white-space:nowrap;
+}
+
+.trusted-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1rem;
+    margin:3rem 0;
+}
+
+.trusted-stat{
+    padding:.25rem;
+}
+
+.trusted-stat-number{
+    display:block;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(3rem,6vw,5rem);
+    color:var(--gold);
+    line-height:.8;
+    margin:0;
+}
+
+.trusted-stat-label{
+    font-size:.75rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--grey);
+    line-height:1;
+    margin:0;
+}
+
+.trusted-divider{
+    width:100%;
+    height:1px;
+    background:linear-gradient(
+        to right,
+        transparent,
+        rgba(198,161,91,.25),
+        transparent
+    );
+    margin:2rem 0;
+}
+
+.brand-grid{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:3rem;
+    margin:2rem 0;
+}
+
+.brand-item{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.5rem;
+    letter-spacing:.15em;
+    color:rgba(255,255,255,.65);
+    transition:.3s ease;
+}
+
+.brand-item:hover{
+    color:var(--gold);
+    transform:translateY(-3px);
+}
+
+.trusted-text{
+    max-width:850px;
+    margin:1.5rem auto 0;
+    font-size:.9rem;
+    color:var(--grey);
+    line-height:1.8;
+}
+
+@media(max-width:900px){
+    .trusted-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .brand-grid{
+        gap:2rem;
+    }
+
+    .brand-item{
+        font-size:1.2rem;
+    }
+}
+
+@media(max-width:600px){
+    #trusted{
+        padding:5rem 1.5rem;
+    }
+
+    .trusted-stats{
+        grid-template-columns:1fr;
+        gap:1.5rem;
+    }
+
+    .trusted-stat-number{
+        font-size:3.5rem;
+    }
+
+    .brand-grid{
+        flex-direction:column;
+        gap:1rem;
+    }
+
+    .brand-item{
+        font-size:1.1rem;
+    }
+}
+
   /* Watch Film button inside info panel */
   .featured-watch-btn {
     display: inline-flex; align-items: center; gap: .6rem;
@@ -442,6 +579,74 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- trusted -->
+<section id="trusted">
+
+    <div class="trusted-watermark">TRUSTED</div>
+
+    <div class="section-label reveal" style="justify-content:center;">
+        Trusted By Brands
+    </div>
+
+    <h2 class="section-title reveal">
+        Brands & Impact
+    </h2>
+
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center;">
+        Creating cinematic stories, commercial campaigns and visual experiences for brands across India.
+    </p>
+
+    <div class="trusted-stats">
+
+        <div class="trusted-stat reveal">
+            <span class="trusted-stat-number">100000+</span>
+            <span class="trusted-stat-label">Impressions Created</span>
+        </div>
+
+        <div class="trusted-stat reveal reveal-delay-1">
+            <span class="trusted-stat-number">10+</span>
+            <span class="trusted-stat-label">Brand Shoots</span>
+        </div>
+
+        <div class="trusted-stat reveal reveal-delay-2">
+            <span class="trusted-stat-number">5+</span>
+            <span class="trusted-stat-label">Short Films</span>
+        </div>
+
+        <div class="trusted-stat reveal reveal-delay-3">
+            <span class="trusted-stat-number">4</span>
+            <span class="trusted-stat-label">Years Creating</span>
+        </div>
+
+    </div>
+
+    <div class="trusted-divider"></div>
+
+    <div class="brand-grid">
+
+        <div class="brand-item">HYUNDAI</div>
+
+        <div class="brand-item">HOLLYLAND</div>
+
+        <div class="brand-item">TIMEZONE</div>
+
+        <div class="brand-item">UTKAL TEA</div>
+
+        <div class="brand-item">MELBOURNE PIZZA</div>
+
+    </div>
+
+    <div class="trusted-divider"></div>
+
+    <p class="trusted-text reveal">
+        From commercial campaigns and product films to cinematic storytelling,
+        every project is crafted with a focus on emotion, quality and results.
+    </p>
+
 </section>
 
 <div class="divider"></div>
