@@ -56,10 +56,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   }
 
   /* HERO */
-  #hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  #hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:flex-start; overflow:hidden; padding:0 clamp(1.5rem,7vw,7rem); }
   #hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; opacity:.55; }
   .hero-gradient { position:absolute; inset:0; z-index:2; background:linear-gradient(to bottom,rgba(5,5,5,.3) 0%,rgba(5,5,5,.1) 40%,rgba(5,5,5,.6) 80%,rgba(5,5,5,1) 100%); }
-  .hero-content { position:relative; z-index:3; text-align:center; animation:fadeUp .8s ease both; }
+  .hero-content { position:relative; z-index:3; text-align:left; max-width:920px; animation:fadeUp .8s ease both; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
   .hero-label { font-family:'Inter',sans-serif; font-size:.7rem; letter-spacing:.4em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; animation:fadeUp .8s .2s ease both; }
   .hero-title { font-family:'Cinzel',serif; font-size:clamp(3.5rem,9vw,9rem); font-weight:900; line-height:.95; letter-spacing:.05em; color:var(--ivory); text-shadow:0 0 80px rgba(198,161,91,.15); animation:fadeUp .8s .35s ease both; }
@@ -71,6 +71,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   .scroll-indicator span { font-size:.6rem; letter-spacing:.3em; text-transform:uppercase; color:var(--grey); }
   .scroll-line { width:1px; height:50px; background:linear-gradient(to bottom,var(--gold),transparent); animation:scrollPulse 2s infinite; }
   @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+
+  @media(max-width:768px){
+    #hero{padding:0 1.5rem;}
+    .hero-content{max-width:100%;}
+  }
 
   /* SECTION BASE */
   section { padding:8rem 3rem; position:relative; }
@@ -757,11 +762,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <!-- HERO -->
 <section id="hero">
   <video id="hero-video" autoplay muted loop playsinline
-    src="https://res.cloudinary.com/dly3lmfqr/video/upload/q_auto/f_auto/v1780218249/Web_Intro_1_suixor.mp4">
+    src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150758/got_kwci35.mp4">
   </video>
   <div class="hero-gradient"></div>
   <div class="hero-content">
-    <p class="hero-label">Cinematographer · Storyteller · Visual Artist · Editor</p>
+    <p class="hero-label">Cinematographer · Storyteller · AI Artist · Editor</p>
     <h1 class="hero-title">24FPS<br><span>DIARIES</span></h1>
     <p class="hero-tagline">Every Frame Tells A Story</p>
     <a href="#works" class="hero-cta">
@@ -884,6 +889,70 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <a href="#works" class="view-all-link reveal reveal-delay-2">View All Projects →</a>
 </div>
 
+
+<div class="works-category-title">Ai Commercials</div>
+
+<div class="works-grid">
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Khimji.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150622/KHIMJI_txqgcq.mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150622/KHIMJI_txqgcq.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">KHIMJI</div>
+<div class="work-card-tag">Commercial · Jewellery</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Bluetea.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150662/blue_tea_x89zzq.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150662/blue_tea_x89zzq.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">BLUE<br>TEA</div>
+<div class="work-card-tag">Commercial · Tea Brand</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Amedore.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150711/AMEDORE_m6c7es.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150711/AMEDORE_m6c7es.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">AMEDORE<br></div>
+<div class="work-card-tag">Commercial · Luxury saloon</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Audi.jpg">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150954/audi_kegpic.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150954/audi_kegpic.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">AUDI</div>
+<div class="work-card-tag">Commercial · Automotive</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ 
 <div class="works-category-title">Commercial Work</div>
 
 <div class="works-grid">
@@ -943,6 +1012,56 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 </div>
 </div>
 </div>
+
+</div>
+ 
+
+<div class="works-category-title">Ai VFX</div>
+
+<div class="works-grid">
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Park.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783151359/park_gokbbj.mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783151359/park_gokbbj.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">GOV PARK</div>
+<div class="work-card-tag">Social work · SHG</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Powergym.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150892/Power_gym_final_mbo5pp.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150892/Power_gym_final_mbo5pp.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">POWER<br>GYM</div>
+<div class="work-card-tag">Commercial · Gym</div>
+</div>
+</div>
+</div>
+
+<div class="work-card">
+<div class="work-card-inner">
+<video class="work-video" muted loop playsinline preload="metadata" poster="photos/Blinkk.png">
+<source src="https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150848/MENU_g0rqet.mp4" type="video/mp4">
+</video>
+<button class="work-hover-btn" onclick="window.open('https://res.cloudinary.com/dly3lmfqr/video/upload/v1783150848/MENU_g0rqet.mp4','_blank')">WATCH FILM</button>
+<div class="work-card-info">
+<div class="work-card-num">2026</div>
+<div class="work-card-title">Blinkk<br></div>
+<div class="work-card-tag">Commercial · Hotel</div>
+</div>
+</div>
+</div>
+
 
 </div>
 
